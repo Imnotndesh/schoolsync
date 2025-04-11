@@ -90,6 +90,32 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val selectionArgs = arrayOf(username)
         return db.query(TABLE_TEACHERS, null, selection, selectionArgs, null, null, null)
     }
+    fun editTeacherByUsername(
+        username: String,
+        newTeacherName: String,
+        newSubject: String,
+        newEmail: String,
+        newPhone: String,
+        newClassName: String,
+        newPassword: String
+        ): Boolean {
+        val exists = getTeacherByUsername(username)
+        if (!exists.moveToFirst()){
+            return false
+        }
+        exists.close()
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("teacher_name", newTeacherName)
+            put("subject", newSubject)
+            put("email", newEmail)
+            put("phone", newPhone)
+            put("class_name", newClassName)
+            put("password", newPassword)
+            put("username", username)
+        }
+        return db.update(TABLE_TEACHERS, values, "username = ?", arrayOf(username)) > 0
+    }
     fun createTeacher(teacherName : String, username: String, password: String, className: String, subject: String, email: String, phone: String): Boolean {
         val db = this.writableDatabase
         val values = ContentValues().apply {
