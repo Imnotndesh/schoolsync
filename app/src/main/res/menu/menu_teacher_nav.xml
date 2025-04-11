@@ -1,0 +1,5 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/teacher_nav_home" android:title="@string/bottom_nav_home" android:icon="@drawable/ic_home" />
+    <item android:id="@+id/teacher_nav_class" android:title="@string/bottom_nav_class" android:icon="@drawable/ic_class" />
+    <item android:id="@+id/teacher_nav_profile" android:title="@string/bottom_nav_profile" android:icon="@drawable/ic_account" />
+</menu>
