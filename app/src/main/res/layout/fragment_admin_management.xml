@@ -1,8 +1,90 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <TextView
-        style="@style/CenteredText"
-        android:text="Admin Management Fragment" />
-</FrameLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Main Title -->
+        <TextView
+            android:text="Admin Management"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- Teacher Management Section -->
+        <TextView
+            android:id="@+id/teacherManagementTitle"
+            android:text="Teacher Management"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <GridLayout
+            android:id="@+id/teacherGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:gap="8dp">
+
+            <Button android:id="@+id/btnAddTeacher" android:layout_gravity="center" android:text="Add Teacher"/>
+            <Button android:id="@+id/btnEditTeacher" android:layout_gravity="center" android:text="Edit Teacher"/>
+            <Button android:id="@+id/btnAssignClassTeacher" android:layout_gravity="center" android:text="Assign Class to Teacher"/>
+            <Button android:id="@+id/btnDeleteTeacher" android:layout_gravity="center" android:text="Delete Teacher"/>
+        </GridLayout>
+
+        <!-- Student Management Section -->
+        <TextView
+            android:text="Student Management"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <GridLayout
+            android:id="@+id/studentGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:gap="8dp">
+
+            <Button android:id="@+id/btnAddStudent" android:layout_gravity="center" android:text="Add Student"/>
+            <Button android:id="@+id/btnEditStudent" android:layout_gravity="center" android:text="Edit Student"/>
+            <Button android:id="@+id/btnChangeClass" android:layout_gravity="center" android:text="Change Class"/>
+            <Button android:id="@+id/btnRemoveStudent" android:layout_gravity="center" android:text="Remove Student"/>
+        </GridLayout>
+
+        <!-- Class Management Section -->
+        <TextView
+            android:text="Class Management"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <GridLayout
+            android:id="@+id/classGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:gap="8dp">
+
+            <Button android:id="@+id/btnAddClass" android:layout_gravity="center" android:text="Add Class"/>
+            <Button android:id="@+id/btnEditClass" android:layout_gravity="center" android:text="Edit Class"/>
+            <Button android:id="@+id/btnChangeTeacher" android:layout_gravity="center" android:text="Change Teacher"/>
+            <Button android:id="@+id/btnSearchClass" android:layout_gravity="center" android:text="Search Class"/>
+        </GridLayout>
+
+    </LinearLayout>
+</ScrollView>

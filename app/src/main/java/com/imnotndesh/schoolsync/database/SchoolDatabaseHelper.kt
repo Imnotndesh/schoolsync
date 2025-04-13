@@ -90,6 +90,12 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val selectionArgs = arrayOf(username)
         return db.query(TABLE_TEACHERS, null, selection, selectionArgs, null, null, null)
     }
+    fun getTeacherByTeacherName(teacherName: String): Cursor {
+        val db = this.readableDatabase
+        val selection = "teacher_name = ?"
+        val selectionArgs = arrayOf(teacherName)
+        return db.query(TABLE_TEACHERS, null, selection, selectionArgs, null, null, null)
+    }
     fun editTeacherByUsername(
         username: String,
         newTeacherName: String,
@@ -115,6 +121,32 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put("username", username)
         }
         return db.update(TABLE_TEACHERS, values, "username = ?", arrayOf(username)) > 0
+    }
+    fun editTeacherByTeacherName(
+        teacherName: String,
+        newSubject: String,
+        newEmail: String,
+        newPhone: String,
+        newClassName: String,
+        newPassword: String,
+        newUsername: String
+    ): Boolean {
+        val exists = getTeacherByTeacherName(teacherName)
+        if (!exists.moveToFirst()){
+            return false
+        }
+        exists.close()
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("username", newUsername)
+            put("subject", newSubject)
+            put("email", newEmail)
+            put("phone", newPhone)
+            put("class_name", newClassName)
+            put("password", newPassword)
+            put("teacher_name", teacherName)
+        }
+        return db.update(TABLE_TEACHERS, values, "teacher_name = ?", arrayOf(teacherName)) > 0
     }
     fun createTeacher(teacherName : String, username: String, password: String, className: String, subject: String, email: String, phone: String): Boolean {
         val db = this.writableDatabase
@@ -175,6 +207,23 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val selectionArgs = arrayOf(studentName)
         return db.query(TABLE_STUDENTS, null, selection, selectionArgs, null, null, null)
     }
+    fun editStudentByName(studentName: String, newDateOfBirth: String, newGender: String, newPhone: String?, newClassName: String): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply {
+            put("date_of_birth", newDateOfBirth)
+            put("gender", newGender)
+            put("phone", newPhone)
+            put("class_name", newClassName)
+            put("student_name", studentName)
+        }
+        return db.update(TABLE_STUDENTS, contentValues, "student_name = ?", arrayOf(studentName)) > 0
+    }
+    fun deleteStudentByName(studentName: String): Boolean {
+        val db = this.writableDatabase
+        val whereClause = "student_name = ?"
+        val whereArgs = arrayOf(studentName)
+        return db.delete(TABLE_STUDENTS, whereClause, whereArgs) > 0
+    }
     fun createClasses(schoolClass: SchoolClass): Boolean {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -199,6 +248,29 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val selection = "teacher_name = ?"
         val selectionArgs = arrayOf(storedTeacherName)
         return db.query(TABLE_CLASSES, null, selection, selectionArgs, null, null, null)
+    }
+    fun getClassByClassName(className: String): Cursor {
+        val db = this.readableDatabase
+        val selection = "class_name = ?"
+        val selectionArgs = arrayOf(className)
+        return db.query(TABLE_CLASSES, null, selection, selectionArgs, null, null, null)
+    }
+    fun deleteClassByClassName(className: String): Boolean {
+        val db = this.writableDatabase
+        val whereClause = "class_name = ?"
+        val whereArgs = arrayOf(className)
+        return db.delete(TABLE_CLASSES, whereClause, whereArgs) > 0
+    }
+    fun editClassByClassName(className: String,classStream: String,grade: String,teacherName: String,capacity: Int): Boolean {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("class_stream", classStream)
+            put("grade", grade)
+            put("teacher_name", teacherName)
+            put("capacity", capacity)
+            put("class_name", className)
+        }
+        return db.update(TABLE_CLASSES, values, "class_name = ?", arrayOf(className)) > 0
     }
     fun createExam(exam: Exam): Boolean {
         val studentCursor = getStudentByName(exam.studentName.toString())

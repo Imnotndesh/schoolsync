@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS students (
     students_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     student_name TEXT NOT NULL UNIQUE,
     date_of_birth TEXT NOT NULL,
-    parent_name TEXT NOT NULL,
+    parent_name TEXT default 'unassigned',
     gender TEXT NOT NULL,
     phone TEXT,
     class_name TEXT NOT NULL DEFAULT 'Unassigned'

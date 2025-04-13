@@ -1,60 +1,63 @@
 package com.imnotndesh.schoolsync.adminFragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.Fragment
 import com.imnotndesh.schoolsync.R
+import com.imnotndesh.schoolsync.adminFragments.management_fragments.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AdminManagementFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AdminManagementFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_management, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_admin_management, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AdminManagementFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AdminManagementFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        // Teacher buttons
+        val btnAddTeacher = view.findViewById<Button>(R.id.btnAddTeacher)
+        val btnEditTeacher = view.findViewById<Button>(R.id.btnEditTeacher)
+        val btnAssignClassTeacher = view.findViewById<Button>(R.id.btnAssignClassTeacher)
+        val btnDeleteTeacher = view.findViewById<Button>(R.id.btnDeleteTeacher)
+
+        // Student buttons
+        val btnAddStudent = view.findViewById<Button>(R.id.btnAddStudent)
+        val btnEditStudent = view.findViewById<Button>(R.id.btnEditStudent)
+        val btnChangeClass = view.findViewById<Button>(R.id.btnChangeClass)
+        val btnRemoveStudent = view.findViewById<Button>(R.id.btnRemoveStudent)
+
+        // Class buttons
+        val btnAddClass = view.findViewById<Button>(R.id.btnAddClass)
+        val btnEditClass = view.findViewById<Button>(R.id.btnEditClass)
+        val btnChangeTeacher = view.findViewById<Button>(R.id.btnChangeTeacher)
+        val btnRemoveClass = view.findViewById<Button>(R.id.btnSearchClass)
+
+        // Teacher button listeners
+        btnAddTeacher.setOnClickListener { fragment_switcher_helper(AddTeacherFragment())}
+        btnEditTeacher.setOnClickListener { fragment_switcher_helper(EditTeacherFragment())}
+        btnAssignClassTeacher.setOnClickListener { fragment_switcher_helper(AssignTeacherNewClassFragment())}
+        btnDeleteTeacher.setOnClickListener { DeleteTeacherFragment()}
+
+        // Student button listeners
+        btnAddStudent.setOnClickListener { AddStudentFragment()}
+        btnEditStudent.setOnClickListener { EditStudentFragment()}
+        btnChangeClass.setOnClickListener { ChangeStudentClassFragment()}
+        btnRemoveStudent.setOnClickListener { RemoveStudentFragment()}
+
+        // Class button listeners
+        btnAddClass.setOnClickListener { AddClassFragment()}
+        btnEditClass.setOnClickListener { EditClassFragment()}
+        btnChangeTeacher.setOnClickListener { ChangeClassTeacherFragment()}
+        btnRemoveClass.setOnClickListener { RemoveClassFragment()}
+
+        return view
+    }
+    private fun fragment_switcher_helper(fragment: Fragment){
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.admin_fragment_container,fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
