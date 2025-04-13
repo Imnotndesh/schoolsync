@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import com.example.school_management_app.EditTeacherFragment
 import com.imnotndesh.schoolsync.R
 import com.imnotndesh.schoolsync.adminFragments.management_fragments.*
 
@@ -35,9 +36,9 @@ class AdminManagementFragment : Fragment() {
         val btnRemoveClass = view.findViewById<Button>(R.id.btnSearchClass)
 
         // Teacher button listeners
-        btnAddTeacher.setOnClickListener { fragment_switcher_helper(AddTeacherFragment())}
-        btnEditTeacher.setOnClickListener { fragment_switcher_helper(EditTeacherFragment())}
-        btnAssignClassTeacher.setOnClickListener { fragment_switcher_helper(AssignTeacherNewClassFragment())}
+        btnAddTeacher.setOnClickListener { fragmentSwitcherHelper(AddTeacherFragment())}
+        btnEditTeacher.setOnClickListener { fragmentSwitcherHelper(EditTeacherFragment())}
+        btnAssignClassTeacher.setOnClickListener { fragmentSwitcherHelper(AssignTeacherNewClassFragment())}
         btnDeleteTeacher.setOnClickListener { DeleteTeacherFragment()}
 
         // Student button listeners
@@ -54,7 +55,7 @@ class AdminManagementFragment : Fragment() {
 
         return view
     }
-    private fun fragment_switcher_helper(fragment: Fragment){
+    private fun fragmentSwitcherHelper(fragment: Fragment){
         parentFragmentManager.beginTransaction()
             .replace(R.id.admin_fragment_container,fragment)
             .addToBackStack(null)
