@@ -226,6 +226,27 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val whereArgs = arrayOf(username)
         return db.delete(TABLE_ADMINS, whereClause, whereArgs) > 0
     }
+    fun createParent(parentName: String,email: String,phone: String,studentName: String): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("parent_name", parentName)
+            put("email", email)
+            put("phone", phone)
+            put("student_name", studentName)
+        }
+        return db.insert(TABLE_PARENTS, null, values) != -1L
+    }
+    fun getClassNameByTeacherUsername(username: String): String {
+        val teacherCursor = getTeacherByUsername(username)
+        var className: String = ""
+        teacherCursor.use {
+            if (it.moveToFirst()) {
+                className = it.getString(it.getColumnIndexOrThrow("class_name"))
+            }
+            teacherCursor.close()
+        }
+        return className
+    }
     fun createStudent(studentName: String,dateOfBirth: String,parentName: String,gender: String,phone: String?,className: String): Boolean {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -330,41 +351,75 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         return db.update(TABLE_CLASSES, values, "class_name = ?", arrayOf(className)) > 0
     }
-    fun createExam(exam: Exam): Boolean {
-        val studentCursor = getStudentByName(exam.studentName.toString())
-        studentCursor.use {
-            if (it.moveToFirst()) return false
-        }
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put("exam_date", exam.examDate)
-            put("student_name", exam.studentName)
-        }
-        return db.insert(TABLE_EXAMS, null, values) != -1L
-    }
-    fun editExamByStudentName(
+    fun createExamEntry(
+        examDate: String,
+        examName: String,
         studentName: String,
         catOne: Int? = null,
         catTwo: Int? = null,
-        finalExam: Int? = null
+        finalExam: Int? = null,
+        comments: String? = null
     ): Boolean {
         val db = this.writableDatabase
-        val values = ContentValues()
-        catOne?.let { values.put("cat_one", it) }
-        catTwo?.let { values.put("cat_two", it) }
-        finalExam?.let { values.put("final_exam", it) }
-        if (values.size() == 0) {
-            return false
+        val values = ContentValues().apply {
+            put("exam_date", examDate)
+            put("exam_name", examName)
+            put("student_name", studentName)
+            put("cat_one", catOne ?: 0)
+            put("cat_two", catTwo ?: 0)
+            put("final_exam", finalExam ?: 0)
+            put("comments", comments ?: "No comments")
         }
-        val result = db.update(
-            "exams",
-            values,
-            "student_name = ?",
-            arrayOf(studentName)
-        )
-        db.close()
-        return result > 0
+        return db.insert(TABLE_EXAMS, null, values) != -1L
     }
+    fun isExamEntryExists(studentName: String): Boolean {
+        val db = this.readableDatabase
+        val selection = "student_name = ?"
+        val selectionArgs = arrayOf(studentName)
+        val cursor = db.query(TABLE_EXAMS, null, selection, selectionArgs, null, null, null)
+        val exists = cursor.count
+        cursor.close()
+        return exists > 0
+    }
+    fun getExamInfoByStudentName(studentName: String): Cursor {
+        val db = this.readableDatabase
+        val selection = "student_name = ?"
+        val selectionArgs = arrayOf(studentName)
+        return db.query(TABLE_EXAMS, null, selection, selectionArgs, null, null, null)
+    }
+    fun updateExamEntry(
+        examDate: String,
+        examName: String,
+        studentName: String,
+        catOne: Int? = null,
+        catTwo: Int? = null,
+        finalExam: Int? = null,
+        comments: String? = null
+    ): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("exam_date", examDate)
+            put("exam_name", examName)
+            put("cat_one", catOne ?: 0)
+            put("cat_two", catTwo ?: 0)
+            put("final_exam", finalExam ?: 0)
+            put("comments", comments ?: "No comments")
+        }
+
+        val whereClause = "student_name = ?"
+        val whereArgs = arrayOf(studentName)
+
+        val rowsAffected = db.update(TABLE_EXAMS, values, whereClause, whereArgs)
+        return rowsAffected > 0
+    }
+
+    fun findStudentsByStudentNameLike(partialName: String): Cursor {
+        val db = readableDatabase
+        val selection = "student_name LIKE ?"
+        val selectionArgs = arrayOf("%$partialName%")
+        return db.query(TABLE_STUDENTS, null, selection, selectionArgs, null, null, null)
+    }
+
     fun deleteExamByStudentName(studentName: String): Boolean {
         val db = this.writableDatabase
         val whereClause = "student_name = ?"

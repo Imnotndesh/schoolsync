@@ -50,9 +50,9 @@ CREATE TABLE IF NOT EXISTS exams (
     exam_date TEXT NOT NULL,
     exam_name TEXT NOT NULL,
     student_name INTEGER NOT NULL UNIQUE,
-    cat_one INTEGER NOT NULL DEFAULT 0,
-    cat_two INTEGER NOT NULL DEFAULT 0,
-    final_exam INTEGER NOT NULL DEFAULT 0,
+    cat_one INTEGER DEFAULT 0,
+    cat_two INTEGER DEFAULT 0,
+    final_exam INTEGER DEFAULT 0,
     comments TEXT DEFAULT 'No comments'
 );
 """

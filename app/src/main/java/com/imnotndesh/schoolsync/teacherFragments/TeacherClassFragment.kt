@@ -11,7 +11,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.imnotndesh.schoolsync.database.SchoolDbHelper
 import com.imnotndesh.schoolsync.R
-import com.imnotndesh.schoolsync.teacherFragments.teacherPages.ParentInformationFragment
+import com.imnotndesh.schoolsync.teacherFragments.teacherPages.*
 
 
 class TeacherClassFragment : Fragment() {
@@ -55,13 +55,13 @@ class TeacherClassFragment : Fragment() {
             moveToFragment(ParentInformationFragment())
         }
         view.findViewById<Button>(R.id.btnAddStudent).setOnClickListener {
-            Toast.makeText(requireContext(), "Add Student", Toast.LENGTH_SHORT).show()
+           moveToFragment(StudentEnrollmentFragment())
         }
         view.findViewById<Button>(R.id.btnUpdateExam).setOnClickListener {
-            Toast.makeText(requireContext(), "Update Exam Details", Toast.LENGTH_SHORT).show()
+            moveToFragment(EditClassStudentMarksFragment())
         }
         view.findViewById<Button>(R.id.btnModifyStudent).setOnClickListener {
-            Toast.makeText(requireContext(), "Modify Student Details", Toast.LENGTH_SHORT).show()
+            moveToFragment(EditClassStudentFragment())
         }
 
         return view

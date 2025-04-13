@@ -23,7 +23,7 @@
         <!-- Search Field -->
         <EditText
             android:id="@+id/inputSearchStudentName"
-            android:hint="Enter student name"
+            android:hint="Enter Full student name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"

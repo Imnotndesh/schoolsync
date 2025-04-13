@@ -41,7 +41,7 @@ class AdminHomeFragment : Fragment() {
         val headerText = "Welcome $username 🎉"
         tvWelcome.text = headerText
 
-        val tableNames = listOf("students", "teachers", "reminders", "parents", "exams")
+        val tableNames = listOf("students", "teachers", "reminders", "parents", "exams","classes")
         val stats = tableNames.map { table ->
             TableStat(table.capitalize(), dbHelper.getTableCount(table))
         }
