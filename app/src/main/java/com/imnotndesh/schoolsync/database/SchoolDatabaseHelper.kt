@@ -419,7 +419,103 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val selectionArgs = arrayOf("%$partialName%")
         return db.query(TABLE_STUDENTS, null, selection, selectionArgs, null, null, null)
     }
+    fun countStudentsRegisteredInClassbyTeacherUsername(username: String): Int {
+        val className = getClassNameByTeacherUsername(username)
+        val db = readableDatabase
+        val selection = "class_name = ?"
+        val selectionArgs = arrayOf(className)
+        val cursor = db.query(TABLE_STUDENTS, null, selection, selectionArgs, null, null, null)
+        val count = cursor.count
+        cursor.close()
+        return count
+    }
+    fun getPendingMarksCountByTeacherUsername(username: String): Int {
+        val db = readableDatabase
+        val className = getClassNameByTeacherUsername(username)
 
+        // Fetch all student names in that class
+        val studentCursor = db.query(
+            TABLE_STUDENTS,
+            arrayOf("student_name"),
+            "class_name = ?",
+            arrayOf(className),
+            null,
+            null,
+            null
+        )
+
+        val studentNames = mutableListOf<String>()
+        studentCursor.use {
+            while (it.moveToNext()) {
+                studentNames.add(it.getString(it.getColumnIndexOrThrow("student_name")))
+            }
+        }
+
+        if (studentNames.isEmpty()) return 0 // no students in class, no pending marks
+
+        // Prepare placeholders for SQL IN clause
+        val placeholders = studentNames.joinToString(",") { "?" }
+
+        // Build selection query
+        val selection = "student_name IN ($placeholders) AND (cat_one = 0 OR cat_two = 0 OR final_exam = 0)"
+        val selectionArgs = studentNames.toTypedArray()
+
+        // Query exams table for pending marks count
+        val examCursor = db.query(
+            TABLE_EXAMS,
+            null,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        val count = examCursor.count
+        examCursor.close()
+
+        return count
+    }
+
+    fun takeAttendanceByTeacherUsername(username: String, dateTaken: String, absent: Int, present: Int, studentsMissing: String): Boolean {
+        val className = getClassNameByTeacherUsername(username)
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("date_taken", dateTaken)
+            put("absent", absent)
+            put("present", present)
+            put("students_missing", studentsMissing)
+            put("class_name", className)
+        }
+        return db.insert(TABLE_ATTENDANCE, null, values) != -1L
+    }
+    fun editAttendanceByTeacherUsername(username: String, dateTaken: String, absent: Int, present: Int, studentsMissing: String): Boolean {
+        val className = getClassNameByTeacherUsername(username)
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("absent", absent)
+            put("present", present)
+            put("students_missing", studentsMissing)
+        }
+        return db.update(TABLE_ATTENDANCE, values, "class_name = ? and date_taken = ?", arrayOf(className, dateTaken)) > 0
+    }
+    fun isAttendanceEntryExistsForDate(username: String, dateTaken: String): Boolean {
+        val className = getClassNameByTeacherUsername(username)
+        val db = readableDatabase
+        val selection = "class_name = ? AND date_taken = ?"
+        val selectionArgs = arrayOf(className, dateTaken)
+        val cursor = db.query(TABLE_ATTENDANCE, null, selection, selectionArgs, null, null, null)
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
+    }
+    fun getAttendanceByUsernameAndDate(username: String, dateTaken: String): Cursor {
+        val className = getClassNameByTeacherUsername(username)
+        val db = readableDatabase
+        val selection = "class_name = ? AND date_taken = ?"
+        val selectionArgs = arrayOf(className, dateTaken)
+        return db.query(TABLE_ATTENDANCE, null, selection, selectionArgs, null, null, null)
+    }
     fun deleteExamByStudentName(studentName: String): Boolean {
         val db = this.writableDatabase
         val whereClause = "student_name = ?"

@@ -29,21 +29,33 @@
             android:paddingBottom="8dp"/>
 
         <!-- Class Details Card -->
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_marginBottom="12dp"
+            android:radius="12dp"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardUseCompatPadding="true"
+            android:elevation="4dp"
+            android:padding="16dp">
         <LinearLayout
             android:id="@+id/classDetailsCard"
             android:orientation="vertical"
-            android:background="@drawable/card_bg"
             android:padding="16dp"
             android:layout_marginBottom="16dp"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView android:id="@+id/classNameText" android:text="Class Name: "  android:layout_height="wrap_content" android:layout_width="wrap_content"/>
-            <TextView android:id="@+id/classStreamText" android:text="Class Stream:" android:layout_height="wrap_content" android:layout_width="wrap_content" />
-            <TextView android:id="@+id/gradeText" android:text="Grade: " android:layout_height="wrap_content" android:layout_width="wrap_content"/>
-            <TextView android:id="@+id/teacherNameText" android:text="Teacher: " android:layout_height="wrap_content" android:layout_width="wrap_content"/>
-            <TextView android:id="@+id/capacityText" android:text="Capacity: " android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+            <TextView android:id="@+id/classNameText" android:text="Class Name: " android:padding="5dp" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+            <TextView android:id="@+id/classStreamText" android:text="Class Stream:" android:padding="5dp" android:layout_height="wrap_content" android:layout_width="wrap_content" />
+            <TextView android:id="@+id/gradeText" android:text="Grade: " android:padding="5dp" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+            <TextView android:id="@+id/teacherNameText" android:text="Teacher: " android:padding="5dp" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+            <TextView android:id="@+id/capacityText" android:text="Capacity: " android:padding="5dp" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
         </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <!-- Management Title -->
         <TextView

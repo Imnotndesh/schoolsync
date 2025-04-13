@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Attendance"
+        android:textSize="24sp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <!-- Date Taken (Auto-filled with today's date) -->
+    <TextView
+        android:id="@+id/dateTaken"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date: 2025-04-13"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"/>
+
+    <!-- Present Students -->
+    <EditText
+        android:id="@+id/presentEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Number of Present Students"
+        android:inputType="number"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Absent Students -->
+    <EditText
+        android:id="@+id/absentEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Number of Absent Students"
+        android:inputType="number"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Students Missing -->
+    <EditText
+        android:id="@+id/studentsMissingEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Students Missing (Comma-separated)"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Attendance"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

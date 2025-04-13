@@ -1,8 +1,62 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <TextView
-        style="@style/CenteredText"
-        android:text="Teacher Home Fragment" />
-</FrameLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Dynamic Welcome Title -->
+        <TextView
+            android:id="@+id/textWelcomeTeacher"
+            android:text="Welcome, Teacher"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Action Suggestions Title -->
+        <TextView
+            android:text="Action suggestions"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Horizontal Action Suggestions RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerActionSuggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:overScrollMode="never"
+            android:paddingBottom="4dp"
+            android:minHeight="56dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal" />
+
+        <!-- Class Summary Title -->
+        <TextView
+            android:text="Class summary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Vertical Stats RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerTeacherStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:clipToPadding="false"
+            android:layout_marginBottom="16dp" />
+
+    </LinearLayout>
+</ScrollView>

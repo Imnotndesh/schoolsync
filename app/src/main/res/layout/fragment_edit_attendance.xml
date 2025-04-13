@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title Section -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Attendance"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Select Date Button (Opens DatePickerDialog) -->
+    <Button
+        android:id="@+id/selectDateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Edit Text to show selected date -->
+    <EditText
+        android:id="@+id/searchDateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Selected Date"
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Search Button to search for attendance by date -->
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search Attendance"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Layout for Attendance Fields (Initially Hidden) -->
+    <LinearLayout
+        android:id="@+id/attendanceFieldsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- Present Edit Text -->
+        <EditText
+            android:id="@+id/presentEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Number of Present Students"
+            android:inputType="number"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Absent Edit Text -->
+        <EditText
+            android:id="@+id/absentEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Number of Absent Students"
+            android:inputType="number"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Students Missing Edit Text -->
+        <EditText
+            android:id="@+id/studentsMissingEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Students Missing (Names)"
+            android:inputType="text"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+
+    <!-- Submit Button to Save Attendance -->
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Attendance"
+        android:visibility="gone" />
+
+</LinearLayout>
