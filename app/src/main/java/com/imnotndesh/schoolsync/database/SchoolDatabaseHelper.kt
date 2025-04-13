@@ -148,6 +148,18 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         return db.update(TABLE_TEACHERS, values, "teacher_name = ?", arrayOf(teacherName)) > 0
     }
+    fun signupAsTeacher(teacherName : String, username: String, password: String, subject: String, email: String, phone: String): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("teacher_name", teacherName)
+            put("email", email)
+            put("subject",subject)
+            put("phone", phone)
+            put("username", username)
+            put("password", password)
+        }
+        return db.insert(TABLE_TEACHERS, null, values) != -1L
+    }
     fun createTeacher(teacherName : String, username: String, password: String, className: String, subject: String, email: String, phone: String): Boolean {
         val db = this.writableDatabase
         val values = ContentValues().apply {

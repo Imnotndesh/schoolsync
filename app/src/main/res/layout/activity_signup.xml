@@ -53,15 +53,6 @@
             android:paddingTop="16dp">
 
             <EditText
-                android:id="@+id/et_teacher_class_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Class Name:"
-                android:inputType="text"
-                android:visibility="visible"
-                android:padding="16dp"/>
-
-            <EditText
                 android:id="@+id/et_teacher_name"
                 android:hint="Teacher Name:"
                 android:layout_width="match_parent"

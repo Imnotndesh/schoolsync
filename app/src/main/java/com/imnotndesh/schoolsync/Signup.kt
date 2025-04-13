@@ -35,7 +35,6 @@ class Signup : AppCompatActivity() {
     private lateinit var registerBtn: Button
     private lateinit var dbHelper: SchoolDbHelper
     private lateinit var sharedPrefs: SharedPreferences
-    private lateinit var adminData : AdminData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +60,6 @@ class Signup : AppCompatActivity() {
         subject = findViewById(R.id.et_subject)
         email = findViewById(R.id.et_email)
         phone = findViewById(R.id.et_phone)
-        className = findViewById(R.id.et_teacher_class_name)
 
         registerBtn = findViewById(R.id.btn_register)
 
@@ -120,7 +118,6 @@ class Signup : AppCompatActivity() {
         val subjectStr = subject.text.toString().trim()
         val emailStr = email.text.toString().trim()
         val phoneStr = phone.text.toString().trim()
-        val classStr = className.text.toString().trim()
 
         if (name.isEmpty() || username.isEmpty() || password.isEmpty() ||
             subjectStr.isEmpty() || emailStr.isEmpty() || phoneStr.isEmpty()
@@ -129,7 +126,7 @@ class Signup : AppCompatActivity() {
             return
         }
 
-        val success = dbHelper.createTeacher(name, username, password, classStr, subjectStr, emailStr, phoneStr)
+        val success = dbHelper.signupAsTeacher(name, username, password, subjectStr, emailStr, phoneStr)
         if (success) {
             saveToSession(username, userType)
             Toast.makeText(this, "Teacher registered successfully", Toast.LENGTH_SHORT).show()
