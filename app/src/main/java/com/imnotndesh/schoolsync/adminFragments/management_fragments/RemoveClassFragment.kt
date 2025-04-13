@@ -1,60 +1,112 @@
 package com.imnotndesh.schoolsync.adminFragments.management_fragments
 
+import android.database.Cursor
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.imnotndesh.schoolsync.R
+import com.imnotndesh.schoolsync.database.SchoolDbHelper
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RemoveClassFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RemoveClassFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var dbHelper: SchoolDbHelper
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ClassAdapter
+    private val classList = mutableListOf<ClassItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_remove_class, container, false)
+        val view = inflater.inflate(R.layout.fragment_remove_class, container, false)
+        dbHelper = SchoolDbHelper(requireContext())
+
+        val searchEditText = view.findViewById<EditText>(R.id.searchClassName)
+        val searchButton = view.findViewById<Button>(R.id.searchButton)
+        recyclerView = view.findViewById(R.id.classRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = ClassAdapter(classList, dbHelper)
+        recyclerView.adapter = adapter
+
+        searchButton.setOnClickListener {
+            val className = searchEditText.text.toString()
+            if (className.isNotEmpty()) {
+                searchClass(className)
+            } else {
+                Toast.makeText(requireContext(), "Enter class name", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchClassFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RemoveClassFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun searchClass(className: String) {
+        val cursor: Cursor = dbHelper.getClassByClassName(className)
+        classList.clear()
+
+        if (cursor.moveToFirst()) {
+            val storedClassName = cursor.getString(cursor.getColumnIndexOrThrow("class_name"))
+            val stream = cursor.getString(cursor.getColumnIndexOrThrow("class_stream"))
+            classList.add(ClassItem(storedClassName, stream))
+        } else {
+            Toast.makeText(requireContext(), "No class found", Toast.LENGTH_SHORT).show()
+        }
+
+        cursor.close()
+        adapter.notifyDataSetChanged()
+    }
+
+    data class ClassItem(val className: String, val classStream: String)
+
+    class ClassAdapter(private val classes: MutableList<ClassItem>, private val dbHelper: SchoolDbHelper) :
+        RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
+
+        inner class ClassViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val classNameText: TextView = view.findViewById(R.id.classNameText)
+            val classStreamText: TextView = view.findViewById(R.id.classStreamText)
+            val deleteButton: Button = view.findViewById(R.id.deleteButton)
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_class_card, parent, false)
+            return ClassViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: ClassViewHolder, position: Int) {
+            val classItem = classes[position]
+            val itemName = "Name: ${classItem.className}"
+            val itemStream = "Stream: ${classItem.classStream}"
+            holder.classNameText.text = itemName
+            holder.classStreamText.text = itemStream
+
+            holder.deleteButton.setOnClickListener {
+                val result = dbHelper.deleteClassByClassName(classItem.className)
+                if (result) {
+                    classes.removeAt(position)
+                    notifyItemRemoved(position)
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "Deleted ${classItem.className}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "Failed to delete ${classItem.className}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+        }
+
+        override fun getItemCount() = classes.size
     }
 }
