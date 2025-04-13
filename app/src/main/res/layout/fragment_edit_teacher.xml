@@ -21,6 +21,14 @@
             android:background="@drawable/bg_circle_white"
             android:padding="20dp"
             android:elevation="4dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4sp"
+            android:text="Edit Teacher"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
         <!-- Card Container -->
         <androidx.cardview.widget.CardView
