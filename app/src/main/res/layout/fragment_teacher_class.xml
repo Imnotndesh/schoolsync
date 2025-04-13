@@ -1,8 +1,74 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <TextView
-        style="@style/CenteredText"
-        android:text="Teacher Class Fragment" />
-</FrameLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/titleText"
+            android:text="Class Management"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"/>
+
+        <!-- Subtitle -->
+        <TextView
+            android:id="@+id/subtitleText"
+            android:text="Class Details"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"/>
+
+        <!-- Class Details Card -->
+        <LinearLayout
+            android:id="@+id/classDetailsCard"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView android:id="@+id/classNameText" android:text="Class Name: "  android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+            <TextView android:id="@+id/classStreamText" android:text="Class Stream:" android:layout_height="wrap_content" android:layout_width="wrap_content" />
+            <TextView android:id="@+id/gradeText" android:text="Grade: " android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+            <TextView android:id="@+id/teacherNameText" android:text="Teacher: " android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+            <TextView android:id="@+id/capacityText" android:text="Capacity: " android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Management Title -->
+        <TextView
+            android:id="@+id/manageTitle"
+            android:text="Class Management"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Buttons Grid -->
+        <GridLayout
+            android:id="@+id/buttonGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:padding="2dp"
+            android:rowCount="2">
+
+            <Button android:id="@+id/btnEditClass"  android:text="Edit Class" android:layout_gravity="center"/>
+            <Button android:id="@+id/btnAddStudent" android:text="Add Student" android:layout_gravity="center"/>
+            <Button android:id="@+id/btnUpdateExam" android:text="Update Exam Details" android:layout_gravity="center"/>
+            <Button android:id="@+id/btnModifyStudent" android:text="Edit Student Details" android:layout_gravity="center"/>
+
+        </GridLayout>
+    </LinearLayout>
+</ScrollView>

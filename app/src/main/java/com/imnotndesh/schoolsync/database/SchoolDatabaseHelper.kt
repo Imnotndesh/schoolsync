@@ -186,6 +186,20 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         return db.insert(TABLE_CLASSES, null, values) != -1L
     }
+    fun getClassByTeacherUsername(username :String): Cursor{
+        val teacherCursor = getTeacherByUsername(username)
+        var storedTeacherName: String = ""
+        teacherCursor.use{
+            if (it.moveToFirst()) {
+                storedTeacherName = it.getString(it.getColumnIndexOrThrow("teacher_name"))
+            }
+            teacherCursor.close()
+        }
+        val db = this.readableDatabase
+        val selection = "teacher_name = ?"
+        val selectionArgs = arrayOf(storedTeacherName)
+        return db.query(TABLE_CLASSES, null, selection, selectionArgs, null, null, null)
+    }
     fun createExam(exam: Exam): Boolean {
         val studentCursor = getStudentByName(exam.studentName.toString())
         studentCursor.use {
