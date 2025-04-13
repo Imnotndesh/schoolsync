@@ -17,7 +17,7 @@ class EditTeacherFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_edit_teacher, container, false)
+        val view = inflater.inflate(R.layout.fragment_admin_edit_teacher, container, false)
 
         dbHelper = SchoolDbHelper(requireContext())
 

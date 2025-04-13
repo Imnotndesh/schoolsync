@@ -5,56 +5,67 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.Toast
 import com.imnotndesh.schoolsync.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddStudentFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+import com.imnotndesh.schoolsync.database.SchoolDbHelper
 class AddStudentFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var dbHelper: SchoolDbHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_student, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_add_student, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddStudentFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddStudentFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        dbHelper = SchoolDbHelper(requireContext())
+
+        // UI references
+        val studentNameEditText = view.findViewById<EditText>(R.id.studentNameEditText)
+        val dateOfBirthEditText = view.findViewById<EditText>(R.id.dateOfBirthEditText)
+        val parentNameEditText = view.findViewById<EditText>(R.id.parentNameEditText)
+        val genderSpinner = view.findViewById<Spinner>(R.id.genderSpinner)
+        val phoneEditText = view.findViewById<EditText>(R.id.phoneEditText)
+        val classNameEditText = view.findViewById<EditText>(R.id.classNameEditText)
+        val addButton = view.findViewById<Button>(R.id.addStudentButton)
+
+        // Gender spinner options
+        val genderOptions = arrayOf("Male", "Female", "Rather not say")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, genderOptions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        genderSpinner.adapter = adapter
+
+        addButton.setOnClickListener {
+            val studentName = studentNameEditText.text.toString().trim()
+            val dateOfBirth = dateOfBirthEditText.text.toString().trim()
+            val parentName = parentNameEditText.text.toString().trim()
+            val gender = genderSpinner.selectedItem.toString()
+            val phone = phoneEditText.text.toString().trim()
+            val className = classNameEditText.text.toString().trim()
+
+            // Validate required fields
+            if (studentName.isEmpty() || dateOfBirth.isEmpty() || parentName.isEmpty() || className.isEmpty()|| phone.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill in all required fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            val success = dbHelper.createStudent(
+                studentName, dateOfBirth, parentName, gender,
+                phone, className
+            )
+
+            if (success) {
+                Toast.makeText(requireContext(), "Student added successfully", Toast.LENGTH_SHORT).show()
+                parentFragmentManager.popBackStack()
+            } else {
+                Toast.makeText(requireContext(), "Failed to add student", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        return view
     }
 }

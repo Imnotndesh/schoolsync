@@ -14,7 +14,13 @@
         android:textStyle="bold"
         android:gravity="center"
         android:padding="8dp"/>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Summary of data"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:padding="8dp"/>
     <!-- RecyclerView for counts -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTableStats"

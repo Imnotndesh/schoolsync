@@ -99,6 +99,7 @@ class DeleteTeacherFragment : Fragment() {
                         "${teacher.teacherName} deleted successfully",
                         Toast.LENGTH_SHORT
                     ).show()
+                    parentFragmentManager.popBackStack()
                 } else {
                     Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show()
                 }

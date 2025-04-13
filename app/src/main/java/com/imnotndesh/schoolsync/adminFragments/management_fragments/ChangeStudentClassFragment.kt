@@ -6,55 +6,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.imnotndesh.schoolsync.R
+import com.imnotndesh.schoolsync.database.SchoolDbHelper
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ChangeStudentClassFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ChangeStudentClassFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var studentNameEditText: EditText
+    private lateinit var newClassNameEditText: EditText
+    private lateinit var changeClassButton: Button
+    private lateinit var dbHelper: SchoolDbHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_change_student_class, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_change_student_class, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChangeStudentClassFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChangeStudentClassFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        studentNameEditText = view.findViewById(R.id.editTextStudentName)
+        newClassNameEditText = view.findViewById(R.id.editTextNewClassName)
+        changeClassButton = view.findViewById(R.id.buttonChangeStudentClass)
+
+        dbHelper = SchoolDbHelper(requireContext())
+
+        changeClassButton.setOnClickListener {
+            val studentName = studentNameEditText.text.toString().trim()
+            val newClassName = newClassNameEditText.text.toString().trim()
+
+            if (studentName.isEmpty() || newClassName.isEmpty()) {
+                Toast.makeText(requireContext(), "Fill in all fields", Toast.LENGTH_SHORT).show()
+            } else {
+                val result = dbHelper.changeStudentClassByStudentName(studentName, newClassName)
+                if (result) {
+                    Toast.makeText(requireContext(), "Student class updated", Toast.LENGTH_SHORT).show()
+                    parentFragmentManager.popBackStack()
+                } else {
+                    Toast.makeText(requireContext(), "Update failed. Check student name.", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        return view
     }
 }

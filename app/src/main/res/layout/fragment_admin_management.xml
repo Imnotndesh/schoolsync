@@ -31,8 +31,7 @@
             android:id="@+id/teacherGrid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:gap="8dp">
+            android:columnCount="2">
 
             <Button android:id="@+id/btnAddTeacher" android:layout_gravity="center" android:text="Add Teacher"/>
             <Button android:id="@+id/btnEditTeacher" android:layout_gravity="center" android:text="Edit Teacher"/>
@@ -54,8 +53,7 @@
             android:id="@+id/studentGrid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:gap="8dp">
+            android:columnCount="2">
 
             <Button android:id="@+id/btnAddStudent" android:layout_gravity="center" android:text="Add Student"/>
             <Button android:id="@+id/btnEditStudent" android:layout_gravity="center" android:text="Edit Student"/>
@@ -77,8 +75,7 @@
             android:id="@+id/classGrid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:gap="8dp">
+            android:columnCount="2">
 
             <Button android:id="@+id/btnAddClass" android:layout_gravity="center" android:text="Add Class"/>
             <Button android:id="@+id/btnEditClass" android:layout_gravity="center" android:text="Edit Class"/>

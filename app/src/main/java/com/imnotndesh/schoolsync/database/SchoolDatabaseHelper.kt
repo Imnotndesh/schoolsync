@@ -218,20 +218,41 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         return db.update(TABLE_STUDENTS, contentValues, "student_name = ?", arrayOf(studentName)) > 0
     }
+    fun changeStudentClassByStudentName(studentName: String, newClassName: String): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply {
+            put("class_name", newClassName)
+        }
+        return db.update(TABLE_STUDENTS, contentValues, "student_name = ?", arrayOf(studentName)) > 0
+    }
+    fun changeTeacherClassByTeacherName(teacherName: String, newClassName: String): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply {
+            put("class_name", newClassName)
+        }
+        return db.update(TABLE_TEACHERS, contentValues, "teacher_name = ?", arrayOf(teacherName)) > 0
+    }
+    fun changeClassTeacherByClassName(className: String, newTeacherName: String): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply {
+            put("teacher_name", newTeacherName)
+        }
+        return db.update(TABLE_CLASSES, contentValues, "class_name = ?", arrayOf(className)) > 0
+    }
     fun deleteStudentByName(studentName: String): Boolean {
         val db = this.writableDatabase
         val whereClause = "student_name = ?"
         val whereArgs = arrayOf(studentName)
         return db.delete(TABLE_STUDENTS, whereClause, whereArgs) > 0
     }
-    fun createClasses(schoolClass: SchoolClass): Boolean {
+    fun createClass(className: String,classStream: String,grade: String,teacherName: String,capacity: Int): Boolean {
         val db = this.writableDatabase
         val values = ContentValues().apply {
-            put("class_name", schoolClass.className)
-            put("class_stream", schoolClass.classStream)
-            put("grade", schoolClass.grade)
-            put("teacher_name", schoolClass.teacherName)
-            put("capacity", schoolClass.capacity)
+            put("class_name", className)
+            put("class_stream", classStream)
+            put("grade", grade)
+            put("teacher_name", teacherName)
+            put("capacity", capacity)
         }
         return db.insert(TABLE_CLASSES, null, values) != -1L
     }

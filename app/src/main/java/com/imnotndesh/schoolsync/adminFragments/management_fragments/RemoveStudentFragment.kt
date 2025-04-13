@@ -65,7 +65,7 @@ class RemoveStudentFragment : Fragment() {
 
     data class StudentItem(val studentName: String, val studentClass: String)
 
-    class StudentAdapter(private val students: MutableList<StudentItem>, private val dbHelper: SchoolDbHelper) :
+   inner class StudentAdapter(private val students: MutableList<StudentItem>, private val dbHelper: SchoolDbHelper) :
         RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
 
         inner class StudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -97,6 +97,7 @@ class RemoveStudentFragment : Fragment() {
                         "Deleted ${student.studentName}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    parentFragmentManager.popBackStack()
                 } else {
                     Toast.makeText(
                         holder.itemView.context,

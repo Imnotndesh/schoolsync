@@ -39,19 +39,19 @@ class AdminManagementFragment : Fragment() {
         btnAddTeacher.setOnClickListener { fragmentSwitcherHelper(AddTeacherFragment())}
         btnEditTeacher.setOnClickListener { fragmentSwitcherHelper(EditTeacherFragment())}
         btnAssignClassTeacher.setOnClickListener { fragmentSwitcherHelper(AssignTeacherNewClassFragment())}
-        btnDeleteTeacher.setOnClickListener { DeleteTeacherFragment()}
+        btnDeleteTeacher.setOnClickListener { fragmentSwitcherHelper(DeleteTeacherFragment())}
 
         // Student button listeners
-        btnAddStudent.setOnClickListener { AddStudentFragment()}
-        btnEditStudent.setOnClickListener { EditStudentFragment()}
-        btnChangeClass.setOnClickListener { ChangeStudentClassFragment()}
-        btnRemoveStudent.setOnClickListener { RemoveStudentFragment()}
+        btnAddStudent.setOnClickListener { fragmentSwitcherHelper(AddStudentFragment())}
+        btnEditStudent.setOnClickListener { fragmentSwitcherHelper(EditStudentFragment())}
+        btnChangeClass.setOnClickListener { fragmentSwitcherHelper(ChangeStudentClassFragment())}
+        btnRemoveStudent.setOnClickListener { fragmentSwitcherHelper(RemoveStudentFragment())}
 
         // Class button listeners
-        btnAddClass.setOnClickListener { AddClassFragment()}
-        btnEditClass.setOnClickListener { EditClassFragment()}
-        btnChangeTeacher.setOnClickListener { ChangeClassTeacherFragment()}
-        btnRemoveClass.setOnClickListener { RemoveClassFragment()}
+        btnAddClass.setOnClickListener { fragmentSwitcherHelper(AddClassFragment())}
+        btnEditClass.setOnClickListener { fragmentSwitcherHelper(EditClassFragment())}
+        btnChangeTeacher.setOnClickListener { fragmentSwitcherHelper(ChangeClassTeacherFragment())}
+        btnRemoveClass.setOnClickListener { fragmentSwitcherHelper(RemoveClassFragment())}
 
         return view
     }

@@ -65,21 +65,18 @@ class RemoveClassFragment : Fragment() {
 
     data class ClassItem(val className: String, val classStream: String)
 
-    class ClassAdapter(private val classes: MutableList<ClassItem>, private val dbHelper: SchoolDbHelper) :
+    inner class ClassAdapter(private val classes: MutableList<ClassItem>, private val dbHelper: SchoolDbHelper) :
         RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
-
         inner class ClassViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val classNameText: TextView = view.findViewById(R.id.classNameText)
             val classStreamText: TextView = view.findViewById(R.id.classStreamText)
             val deleteButton: Button = view.findViewById(R.id.deleteButton)
         }
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_class_card, parent, false)
             return ClassViewHolder(view)
         }
-
         override fun onBindViewHolder(holder: ClassViewHolder, position: Int) {
             val classItem = classes[position]
             val itemName = "Name: ${classItem.className}"
@@ -97,6 +94,7 @@ class RemoveClassFragment : Fragment() {
                         "Deleted ${classItem.className}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    backToPreviousFragment()
                 } else {
                     Toast.makeText(
                         holder.itemView.context,
@@ -108,5 +106,8 @@ class RemoveClassFragment : Fragment() {
         }
 
         override fun getItemCount() = classes.size
+    }
+    private fun backToPreviousFragment(){
+        parentFragmentManager.popBackStack()
     }
 }

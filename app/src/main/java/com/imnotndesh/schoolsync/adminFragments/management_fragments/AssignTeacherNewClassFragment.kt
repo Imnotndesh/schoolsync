@@ -1,60 +1,74 @@
 package com.imnotndesh.schoolsync.adminFragments.management_fragments
 
+import android.database.Cursor
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
 import com.imnotndesh.schoolsync.R
+import com.imnotndesh.schoolsync.database.SchoolDbHelper
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AssignTeacherNewClassFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AssignTeacherNewClassFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var dbHelper: SchoolDbHelper
+    private lateinit var teacherNameEditText: EditText
+    private lateinit var searchButton: Button
+    private lateinit var changeClassLayout: LinearLayout
+    private lateinit var newClassNameEditText: EditText
+    private lateinit var changeClassButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_assign_teacher_new_class, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_assign_teacher_new_class, container, false)
+        dbHelper = SchoolDbHelper(requireContext())
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AssignTeacherNewClassFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AssignTeacherNewClassFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        teacherNameEditText = view.findViewById(R.id.teacherNameEditText)
+        searchButton = view.findViewById(R.id.searchTeacherButton)
+        changeClassLayout = view.findViewById(R.id.changeClassLayout)
+        newClassNameEditText = view.findViewById(R.id.newClassNameEditText)
+        changeClassButton = view.findViewById(R.id.changeClassButton)
+
+        searchButton.setOnClickListener {
+            val teacherName = teacherNameEditText.text.toString().trim()
+            if (teacherName.isNotEmpty()) {
+                val cursor: Cursor = dbHelper.getTeacherByTeacherName(teacherName)
+                if (cursor.moveToFirst()) {
+                    changeClassLayout.visibility = View.VISIBLE
+                } else {
+                    Toast.makeText(requireContext(), "Teacher not found", Toast.LENGTH_SHORT).show()
+                    changeClassLayout.visibility = View.GONE
                 }
+                cursor.close()
+            } else {
+                Toast.makeText(requireContext(), "Enter a teacher name", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        changeClassButton.setOnClickListener {
+            val teacherName = teacherNameEditText.text.toString().trim()
+            val newClassName = newClassNameEditText.text.toString().trim()
+            if (newClassName.isNotEmpty()) {
+                val result = dbHelper.changeTeacherClassByTeacherName(teacherName, newClassName)
+                if (result) {
+                    Toast.makeText(requireContext(), "Class updated", Toast.LENGTH_SHORT).show()
+                    teacherNameEditText.text.clear()
+                    newClassNameEditText.text.clear()
+                    changeClassLayout.visibility = View.GONE
+                    parentFragmentManager.popBackStack()
+                } else {
+                    Toast.makeText(requireContext(), "Update failed", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "Enter new class name", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        return view
     }
 }
