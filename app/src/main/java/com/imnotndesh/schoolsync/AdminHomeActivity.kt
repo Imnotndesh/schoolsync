@@ -2,7 +2,7 @@ package com.imnotndesh.schoolsync
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.imnotndesh.schoolsync.adminFragments.*
+import com.imnotndesh.schoolsync.adminPages.*
 
 class AdminHomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

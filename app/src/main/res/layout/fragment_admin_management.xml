@@ -78,7 +78,7 @@
             android:columnCount="2">
 
             <Button android:id="@+id/btnAddClass" android:layout_gravity="center" android:text="Add Class"/>
-            <Button android:id="@+id/btnEditClass" android:layout_gravity="center" android:text="Edit Class"/>
+            <Button android:id="@+id/parentInformationBttn" android:layout_gravity="center" android:text="Edit Class"/>
             <Button android:id="@+id/btnChangeTeacher" android:layout_gravity="center" android:text="Change Teacher"/>
             <Button android:id="@+id/btnSearchClass" android:layout_gravity="center" android:text="Search Class"/>
         </GridLayout>

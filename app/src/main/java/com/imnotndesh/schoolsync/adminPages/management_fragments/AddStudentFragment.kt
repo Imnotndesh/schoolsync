@@ -1,4 +1,4 @@
-package com.imnotndesh.schoolsync.adminFragments.management_fragments
+package com.imnotndesh.schoolsync.adminPages.management_fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

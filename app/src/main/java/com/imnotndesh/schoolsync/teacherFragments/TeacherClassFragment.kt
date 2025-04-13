@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.imnotndesh.schoolsync.database.SchoolDbHelper
 import com.imnotndesh.schoolsync.R
+import com.imnotndesh.schoolsync.teacherFragments.teacherPages.ParentInformationFragment
 
 
 class TeacherClassFragment : Fragment() {
@@ -50,8 +51,8 @@ class TeacherClassFragment : Fragment() {
             Toast.makeText(requireContext(), "No class found for this teacher.", Toast.LENGTH_SHORT).show()
         }
         cursor.close()
-        view.findViewById<Button>(R.id.btnEditClass).setOnClickListener {
-            Toast.makeText(requireContext(), "Edit Class", Toast.LENGTH_SHORT).show()
+        view.findViewById<Button>(R.id.parentInformationBttn).setOnClickListener {
+            moveToFragment(ParentInformationFragment())
         }
         view.findViewById<Button>(R.id.btnAddStudent).setOnClickListener {
             Toast.makeText(requireContext(), "Add Student", Toast.LENGTH_SHORT).show()
@@ -64,5 +65,11 @@ class TeacherClassFragment : Fragment() {
         }
 
         return view
+    }
+    private fun moveToFragment(fragment: Fragment){
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.teacher_fragment_container,fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

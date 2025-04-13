@@ -48,6 +48,7 @@ const val ExamTable = """
 CREATE TABLE IF NOT EXISTS exams (
     exam_id INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
     exam_date TEXT NOT NULL,
+    exam_name TEXT NOT NULL,
     student_name INTEGER NOT NULL UNIQUE,
     cat_one INTEGER NOT NULL DEFAULT 0,
     cat_two INTEGER NOT NULL DEFAULT 0,
@@ -60,8 +61,8 @@ const val ParentsTable = """
 CREATE TABLE IF NOT EXISTS parents (
     parent_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     parent_name TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL,
-    phone TEXT NOT NULL,
+    email TEXT DEFAULT 'none',
+    phone TEXT DEFAULT 'none',
     student_name TEXT NOT NULL
 );
 """

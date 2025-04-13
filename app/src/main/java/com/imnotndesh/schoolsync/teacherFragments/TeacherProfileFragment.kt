@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.imnotndesh.schoolsync.MainActivity
 import com.imnotndesh.schoolsync.R
 import com.imnotndesh.schoolsync.database.SchoolDbHelper
+import com.imnotndesh.schoolsync.teacherFragments.teacherPages.EditTeacherFragment
 
 class TeacherProfileFragment : Fragment() {
 

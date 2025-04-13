@@ -1,4 +1,4 @@
-package com.imnotndesh.schoolsync.teacherFragments
+package com.imnotndesh.schoolsync.teacherFragments.teacherPages
 
 import android.content.Context
 import android.content.Intent

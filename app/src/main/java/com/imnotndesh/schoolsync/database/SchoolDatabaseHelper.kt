@@ -160,6 +160,31 @@ class SchoolDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         return db.insert(TABLE_TEACHERS, null, values) != -1L
     }
+    fun findParentInfoByStudentName(studentName: String ) :Cursor{
+        val db = readableDatabase
+        val selection = "student_name = ?"
+        val selectionArgs = arrayOf(studentName)
+        return db.query(TABLE_PARENTS, null, selection, selectionArgs, null, null, null)
+    }
+    fun isStudentInTeacherClass(username: String, studentName: String): Boolean {
+        var teacherClassName: String? = ""
+        val teacherCursor = getTeacherByUsername(username)
+        teacherCursor.use {
+            if (it.moveToFirst()) {
+                teacherClassName = it.getString(it.getColumnIndexOrThrow("class_name"))
+            }
+            teacherCursor.close()
+        }
+        val studentCursor = getStudentByName(studentName)
+        var studentClassName: String? = ""
+        studentCursor.use{
+            if (it.moveToFirst()) {
+                studentClassName = it.getString(it.getColumnIndexOrThrow("class_name"))
+            }
+            studentCursor.close()
+        }
+        return teacherClassName == studentClassName
+    }
     fun createTeacher(teacherName : String, username: String, password: String, className: String, subject: String, email: String, phone: String): Boolean {
         val db = this.writableDatabase
         val values = ContentValues().apply {

@@ -1,4 +1,4 @@
-package com.imnotndesh.schoolsync.adminFragments
+package com.imnotndesh.schoolsync.adminPages
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.school_management_app.EditTeacherFragment
 import com.imnotndesh.schoolsync.R
-import com.imnotndesh.schoolsync.adminFragments.management_fragments.*
+import com.imnotndesh.schoolsync.adminPages.management_fragments.*
 
 class AdminManagementFragment : Fragment() {
 
@@ -31,7 +31,7 @@ class AdminManagementFragment : Fragment() {
 
         // Class buttons
         val btnAddClass = view.findViewById<Button>(R.id.btnAddClass)
-        val btnEditClass = view.findViewById<Button>(R.id.btnEditClass)
+        val btnEditClass = view.findViewById<Button>(R.id.parentInformationBttn)
         val btnChangeTeacher = view.findViewById<Button>(R.id.btnChangeTeacher)
         val btnRemoveClass = view.findViewById<Button>(R.id.btnSearchClass)
 

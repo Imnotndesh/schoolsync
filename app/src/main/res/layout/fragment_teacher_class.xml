@@ -64,7 +64,7 @@
             android:padding="2dp"
             android:rowCount="2">
 
-            <Button android:id="@+id/btnEditClass"  android:text="Edit Class" android:layout_gravity="center"/>
+            <Button android:id="@+id/parentInformationBttn"  android:text="Get Parent Information" android:layout_gravity="center"/>
             <Button android:id="@+id/btnAddStudent" android:text="Add Student" android:layout_gravity="center"/>
             <Button android:id="@+id/btnUpdateExam" android:text="Update Exam Details" android:layout_gravity="center"/>
             <Button android:id="@+id/btnModifyStudent" android:text="Edit Student Details" android:layout_gravity="center"/>
